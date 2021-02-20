@@ -18,6 +18,6 @@ public interface ProposalRepository extends JpaRepository<Proposal, Long> {
 
     Optional<Proposal> findByExternalId(UUID externalId);
 
-    Optional<Proposal> findAllByStatusAndCard(ProposalStatus status, Card card);
+    //Optional<Proposal> findAllByStatusAndCard(ProposalStatus status, Card card);
 
 }

@@ -28,7 +28,7 @@ public class ProposalResponse {
 		this.email = proposal.getEmail();
 		this.salary = proposal.getSalary();
 		this.document = proposal.getDocument();
-		this.status = proposal.getStatus();
+		this.status = proposal.getProposalStatus();
 		this.cardStatus = proposal.getCardStatus();
 	}
 

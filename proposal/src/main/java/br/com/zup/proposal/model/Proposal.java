@@ -20,102 +20,103 @@ import br.com.zup.proposal.model.enums.ProposalStatus;
 @Entity
 public class Proposal {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(nullable = false)
-    private final UUID externalId = UUID.randomUUID();
+	@Column(nullable = false)
+	private final UUID externalId = UUID.randomUUID();
 
-    @Column(nullable = false)
-    private String name;
+	@Column(nullable = false)
+	private String name;
 
-    @Column(nullable = false)
-    private String email;
+	@Column(nullable = false)
+	private String email;
 
-    //@Document
-    @Column(nullable = false, unique = true)
-    private String document;
+	// @Document
+	@Column(nullable = false, unique = true)
+	private String document;
 
-    @Positive(message = "Salary can't be negative")
-    @Column(nullable = false)
-    private BigDecimal salary;
-    @Embedded
+	@Positive(message = "Salary can't be negative")
+	@Column(nullable = false)
+	private BigDecimal salary;
+	@Embedded
 
-    @Column(nullable = false)
-    private Address address;
+	@Column(nullable = false)
+	private Address address;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private ProposalStatus status = ProposalStatus.NOT_ELIGIBLE;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private ProposalStatus proposalStatus;
 
-    @OneToOne
-    private Card card;
+	@OneToOne
+	private Card card;
 
-    @Enumerated(EnumType.ORDINAL)
-    @Column(nullable = false)
-    private CardStatus cardStatus = CardStatus.UNCREATED;
+	@Enumerated(EnumType.ORDINAL)
+	@Column(nullable = false)
+	private CardStatus cardStatus;
 
-    public Proposal(String name, String email, String document, BigDecimal salary, Address address) {
-        this.name = name;
-        this.email = email;
-        this.document = document;
-        this.salary = salary;
-        this.address = address;
-        
-    }
+	public Proposal(String name, String email, String document, BigDecimal salary, Address address) {
+		this.name = name;
+		this.email = email;
+		this.document = document;
+		this.salary = salary;
+		this.address = address;
 
-    @Deprecated
-    public Proposal() {
-    }
+	}
 
-    public void associateCard(Card card) {
-        this.card = card;
-        this.cardStatus = CardStatus.CREATED;
-    }
+	@Deprecated
+	public Proposal() {
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public void associateCard(Card card) {
+		this.card = card;
+		this.cardStatus = CardStatus.CREATED;
+	}
 
-    public UUID getExternalId() {
-        return externalId;
-    }
+	public void updateProposalStatus(ProposalStatus newStatus) {
+		this.proposalStatus = newStatus;
 
-    public String getDocument() {
-        return document;
-    }
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public UUID getExternalId() {
+		return externalId;
+	}
 
-    public Address getAddress() {
-        return address;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public BigDecimal getSalary() {
-        return salary;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public ProposalStatus getStatus() {
-        return status;
-    }
+	public String getDocument() {
+		return document;
+	}
 
-    public Card getCard() {
-        return card;
-    }
+	public BigDecimal getSalary() {
+		return salary;
+	}
 
-    public CardStatus getCardStatus() {
-        return cardStatus;
-    }
+	public Address getAddress() {
+		return address;
+	}
 
-    public void setStatus(ProposalStatus status) {
-        this.status = status;
-    }
+	public ProposalStatus getProposalStatus() {
+		return proposalStatus;
+	}
+
+	public Card getCard() {
+		return card;
+	}
+
+	public CardStatus getCardStatus() {
+		return cardStatus;
+	}
 
 }

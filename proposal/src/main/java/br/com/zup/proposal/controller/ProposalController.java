@@ -8,30 +8,34 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import br.com.zup.proposal.controller.request.ProposalRequest;
+import br.com.zup.proposal.controller.response.ProposalResponse;
 import br.com.zup.proposal.model.Proposal;
-import br.com.zup.proposal.provider.financialAnalysis.FinancialAnalysisClient;
-import br.com.zup.proposal.repository.ProposalRepository;
+import br.com.zup.proposal.model.enums.ProposalStatus;
+import br.com.zup.proposal.services.ProposalService;
 
 @RestController
 @RequestMapping("/proposals")
 public class ProposalController {
 	
 	@Autowired
-	private ProposalRepository proposalRepository;
+	private ProposalService proposalService;
 	
-	@Autowired
-	private FinancialAnalysisClient analisisClient;
-	
-	
-	
+		
 	@PostMapping
-	public ResponseEntity<?> createProposal(@RequestBody @Valid ProposalRequest request) {
+	public ResponseEntity<ProposalResponse> createProposal(@RequestBody @Valid ProposalRequest request) {
 		
 		Proposal newProposal = request.toProposal();
 		
-		return null;
+		proposalService.existsProposalByDocument(newProposal.getDocument());
+		
+		ProposalStatus status = proposalService.consultProposal(newProposal);
+		
+		newProposal.updateProposalStatus(status);
+		
+		proposalService.create(newProposal);
+		
+		return ResponseEntity.ok().body(new ProposalResponse(newProposal));
 	}
 
 }
