@@ -23,13 +23,18 @@ public class ProposalResponse {
 
 	private CardStatus cardStatus;
 
+	private AddressResponse addressResponse;
+
 	public ProposalResponse(Proposal proposal) {
+		this.externalId = proposal.getExternalId();
 		this.name = proposal.getName();
 		this.email = proposal.getEmail();
 		this.salary = proposal.getSalary();
 		this.document = proposal.getDocument();
 		this.status = proposal.getProposalStatus();
 		this.cardStatus = proposal.getCardStatus();
+		this.addressResponse = new AddressResponse(proposal.getAddress());
+
 	}
 
 	public UUID getExternalId() {
@@ -58,6 +63,10 @@ public class ProposalResponse {
 
 	public CardStatus getCardStatus() {
 		return cardStatus;
+	}
+
+	public AddressResponse getAddressResponse() {
+		return addressResponse;
 	}
 
 }

@@ -25,7 +25,7 @@ public class Proposal {
 	private Long id;
 
 	@Column(nullable = false)
-	private final UUID externalId = UUID.randomUUID();
+	private UUID externalId = UUID.randomUUID();
 
 	@Column(nullable = false)
 	private String name;
@@ -47,13 +47,13 @@ public class Proposal {
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private ProposalStatus proposalStatus;
+	private ProposalStatus proposalStatus = ProposalStatus.ABERTA;
 
 	@OneToOne
 	private Card card;
 
 	@Enumerated(EnumType.ORDINAL)
-	@Column(nullable = false)
+	//@Column(nullable = false)
 	private CardStatus cardStatus;
 
 	public Proposal(String name, String email, String document, BigDecimal salary, Address address) {

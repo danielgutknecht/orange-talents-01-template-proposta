@@ -1,8 +1,6 @@
 package br.com.zup.proposal.provider.financial;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import br.com.zup.proposal.model.Proposal;
 import br.com.zup.proposal.model.enums.ProposalStatus;
 
 public class FinancialAnalysisResponse {
@@ -14,17 +12,10 @@ public class FinancialAnalysisResponse {
 	private String nome;
 
 	@JsonProperty
-	private ProposalStatus resultadoSolicitaca;
+	private ProposalStatus resultadoSolicitacao;
 
 	@JsonProperty
 	private Long idProposta;
-
-	public FinancialAnalysisResponse(Proposal proposal) {
-		this.documento = proposal.getDocument();
-		this.nome = proposal.getName();
-		this.resultadoSolicitaca = proposal.getProposalStatus();
-		this.idProposta = proposal.getId();
-	}
 
 	public String getDocumento() {
 		return documento;
@@ -35,11 +26,17 @@ public class FinancialAnalysisResponse {
 	}
 
 	public ProposalStatus getResultadoSolicitaca() {
-		return resultadoSolicitaca;
+		return resultadoSolicitacao;
 	}
 
 	public Long getIdProposta() {
 		return idProposta;
+	}
+
+	@Override
+	public String toString() {
+		return "FinancialAnalysisResponse [documento=" + documento + ", nome=" + nome + ", resultadoSolicitaca="
+				+ resultadoSolicitacao + ", idProposta=" + idProposta + "]";
 	}
 
 }

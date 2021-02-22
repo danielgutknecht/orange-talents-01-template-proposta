@@ -1,8 +1,8 @@
-package br.com.zup.proposal.controller.request;
+package br.com.zup.proposal.controller.response;
 
 import br.com.zup.proposal.model.Address;
 
-public class AddressRequest {
+public class AddressResponse {
 
 	private String cep;
 
@@ -16,17 +16,13 @@ public class AddressRequest {
 
 	private String state;
 
-	public AddressRequest(String cep, String street, String district, String complement, String city, String state) {
-		this.cep = cep;
-		this.street = street;
-		this.district = district;
-		this.complement = complement;
-		this.city = city;
-		this.state = state;
-	}
-
-	public Address toAddress() {
-	return new Address(cep, street, district, complement, city, state);
+	public AddressResponse(Address address) {
+		this.cep = address.getCep();
+		this.street = address.getStreet();
+		this.district = address.getDistrict();
+		this.complement = address.getComplement();
+		this.city = address.getCity();
+		this.state = address.getState();
 	}
 
 	public String getCep() {
@@ -52,4 +48,5 @@ public class AddressRequest {
 	public String getState() {
 		return state;
 	}
+
 }

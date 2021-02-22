@@ -1,5 +1,6 @@
 package br.com.zup.proposal.services;
 
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 import br.com.zup.proposal.model.Proposal;
 import br.com.zup.proposal.model.enums.ProposalStatus;
 import br.com.zup.proposal.provider.financial.FinancialAnalysisClient;
+import br.com.zup.proposal.provider.financial.FinancialAnalysisRequest;
 import br.com.zup.proposal.provider.financial.FinancialAnalysisResponse;
 import br.com.zup.proposal.repository.ProposalRepository;
 import feign.FeignException.FeignClientException;
@@ -17,18 +19,13 @@ public class ProposalService {
 	@Autowired
 	private ProposalRepository proposalRepository;
 
-	
-	private FinancialAnalysisClient financialAnalysisClient;
-	
 	@Autowired
-	public ProposalService(FinancialAnalysisClient fianAnalysisClient) {
-		this.financialAnalysisClient = fianAnalysisClient;
-	}
+	private FinancialAnalysisClient financialAnalysisClient;
 
 	public Boolean existsProposalByDocument(String document) {
 
 		Boolean documentExists = proposalRepository.existsByDocument(document);
-		if (documentExists != null) {
+		if (documentExists.equals(document)) {
 			throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
 					"There is already a proposal for that document.");
 		}
@@ -36,13 +33,12 @@ public class ProposalService {
 		return documentExists;
 	}
 
-	public ProposalStatus consultProposal(Proposal newProposal) {
+	public ProposalStatus consultProposal(FinancialAnalysisRequest financialAnalysisRequest) {
 
 		try {
-			FinancialAnalysisResponse proposalAnalises = financialAnalysisClient.consult(
-					newProposal.getDocument(),
-					newProposal.getName(), 
-					newProposal.getId());
+			FinancialAnalysisResponse proposalAnalises = financialAnalysisClient.consult(financialAnalysisRequest);
+
+			System.out.println(proposalAnalises.toString());
 
 			return proposalAnalises.getResultadoSolicitaca();
 
@@ -53,6 +49,7 @@ public class ProposalService {
 
 	}
 
+	@Transactional
 	public Proposal create(Proposal proposal) {
 		return proposalRepository.save(proposal);
 	}

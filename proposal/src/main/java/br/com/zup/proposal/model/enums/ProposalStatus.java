@@ -1,6 +1,13 @@
 package br.com.zup.proposal.model.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum ProposalStatus {
+	
+	ABERTA("ABERTA"),
+	
+	//teste, usar anotação @JsonValue no return
+	//SEM_RESTRICAO("ELEGIVEL"),
 
 	ELEGIVEL("SEM_RESTRICAO"), 
 	
@@ -14,6 +21,7 @@ public enum ProposalStatus {
 		this.description = description;
 	}
 
+	@JsonValue
 	public String getDescription() {
 		return description;
 	}
