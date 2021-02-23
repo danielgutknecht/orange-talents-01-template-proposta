@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.zup.proposal.model.Proposal;
 
-public class FinancialAnalysisRequest {
+public class ProposalAnalysisRequest {
 
 	@JsonProperty("documento")
 	private final String document;
@@ -15,7 +15,7 @@ public class FinancialAnalysisRequest {
 	@JsonProperty("idProposta")
 	private final Long idProposal;
 
-	public FinancialAnalysisRequest(Proposal proposal) {
+	public ProposalAnalysisRequest(Proposal proposal) {
 		this.document = proposal.getDocument();
 		this.name = proposal.getName();
 		this.idProposal = proposal.getId();

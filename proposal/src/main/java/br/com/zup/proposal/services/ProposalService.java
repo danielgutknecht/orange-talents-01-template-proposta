@@ -1,15 +1,15 @@
 package br.com.zup.proposal.services;
 
-import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import br.com.zup.proposal.model.Proposal;
 import br.com.zup.proposal.model.enums.ProposalStatus;
-import br.com.zup.proposal.provider.financial.FinancialAnalysisClient;
-import br.com.zup.proposal.provider.financial.FinancialAnalysisRequest;
-import br.com.zup.proposal.provider.financial.FinancialAnalysisResponse;
+import br.com.zup.proposal.provider.financial.ProposalAnalysisClient;
+import br.com.zup.proposal.provider.financial.ProposalAnalysisRequest;
+import br.com.zup.proposal.provider.financial.ProposalAnalysisResponse;
 import br.com.zup.proposal.repository.ProposalRepository;
 import feign.FeignException.FeignClientException;
 
@@ -20,7 +20,7 @@ public class ProposalService {
 	private ProposalRepository proposalRepository;
 
 	@Autowired
-	private FinancialAnalysisClient financialAnalysisClient;
+	private ProposalAnalysisClient financialAnalysisClient;
 
 	public Boolean existsProposalByDocument(String document) {
 
@@ -33,10 +33,10 @@ public class ProposalService {
 		return documentExists;
 	}
 
-	public ProposalStatus consultProposal(FinancialAnalysisRequest financialAnalysisRequest) {
+	public ProposalStatus consultProposal(ProposalAnalysisRequest financialAnalysisRequest) {
 
 		try {
-			FinancialAnalysisResponse proposalAnalises = financialAnalysisClient.consult(financialAnalysisRequest);
+			ProposalAnalysisResponse proposalAnalises = financialAnalysisClient.consult(financialAnalysisRequest);
 
 			System.out.println(proposalAnalises.toString());
 
@@ -49,9 +49,13 @@ public class ProposalService {
 
 	}
 
-	@Transactional
 	public Proposal create(Proposal proposal) {
 		return proposalRepository.save(proposal);
+	}
+
+	public Proposal findById(Long id) {
+		return proposalRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ID Proposal not found"));
 	}
 
 }

@@ -1,8 +1,8 @@
 package br.com.zup.proposal.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -12,12 +12,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.Positive;
-
 import br.com.zup.proposal.model.enums.CardStatus;
 import br.com.zup.proposal.model.enums.ProposalStatus;
 
 @Entity
+@Table(name = "proposta")
 public class Proposal {
 
 	@Id
@@ -26,6 +27,9 @@ public class Proposal {
 
 	@Column(nullable = false)
 	private UUID externalId = UUID.randomUUID();
+
+	@Column(nullable = false)
+	private LocalDateTime createdAt = LocalDateTime.now();
 
 	@Column(nullable = false)
 	private String name;
@@ -40,20 +44,20 @@ public class Proposal {
 	@Positive(message = "Salary can't be negative")
 	@Column(nullable = false)
 	private BigDecimal salary;
-	@Embedded
 
 	@Column(nullable = false)
+	@Embedded
 	private Address address;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private ProposalStatus proposalStatus = ProposalStatus.ABERTA;
+	private ProposalStatus status = ProposalStatus.ABERTA;
 
 	@OneToOne
 	private Card card;
 
 	@Enumerated(EnumType.ORDINAL)
-	//@Column(nullable = false)
+	// @Column(nullable = false)
 	private CardStatus cardStatus;
 
 	public Proposal(String name, String email, String document, BigDecimal salary, Address address) {
@@ -62,20 +66,26 @@ public class Proposal {
 		this.document = document;
 		this.salary = salary;
 		this.address = address;
+	}
 
+	public Proposal(String name, String email, String document, BigDecimal salary, Address address,
+			ProposalStatus status, Card card, CardStatus cardStatus) {
+		this.name = name;
+		this.email = email;
+		this.document = document;
+		this.salary = salary;
+		this.address = address;
+		this.status = status;
+		this.card = card;
+		this.cardStatus = cardStatus;
 	}
 
 	@Deprecated
 	public Proposal() {
 	}
 
-	public void associateCard(Card card) {
-		this.card = card;
-		this.cardStatus = CardStatus.CREATED;
-	}
-
 	public void updateProposalStatus(ProposalStatus newStatus) {
-		this.proposalStatus = newStatus;
+		this.status = newStatus;
 
 	}
 
@@ -108,11 +118,15 @@ public class Proposal {
 	}
 
 	public ProposalStatus getProposalStatus() {
-		return proposalStatus;
+		return status;
 	}
 
 	public Card getCard() {
 		return card;
+	}
+
+	public void setCard(Card card) {
+		this.card = card;
 	}
 
 	public CardStatus getCardStatus() {

@@ -5,12 +5,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-
 @FeignClient(name = "financialAnalysis", url = "${proposal.client.financialanalysis.url}")
-public interface FinancialAnalysisClient {
+public interface ProposalAnalysisClient {
 
 	@PostMapping("/api/solicitacao")
-	public FinancialAnalysisResponse consult(@RequestBody FinancialAnalysisRequest financialAnalysisRequest);
+	public ProposalAnalysisResponse consult(@RequestBody ProposalAnalysisRequest financialAnalysisRequest);
 	
 
 }
