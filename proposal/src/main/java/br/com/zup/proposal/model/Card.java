@@ -2,12 +2,14 @@ package br.com.zup.proposal.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -33,6 +35,9 @@ public class Card {
 
 	@OneToOne
 	private Proposal proposal;
+	
+	@OneToMany
+	private Set<Biometry> biometry;
 
 	public Card(String number, BigDecimal limit, Proposal proposal) {
 		this.number = number;

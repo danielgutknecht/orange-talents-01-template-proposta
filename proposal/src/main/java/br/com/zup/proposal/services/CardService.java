@@ -20,7 +20,7 @@ import br.com.zup.proposal.repository.ProposalRepository;
 import feign.FeignException;
 
 @Service
-@EnableScheduling
+@EnableScheduling // <-- active Scheduler
 public class CardService {
 
 	@Autowired
