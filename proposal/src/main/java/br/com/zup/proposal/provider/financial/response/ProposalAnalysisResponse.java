@@ -1,4 +1,4 @@
-package br.com.zup.proposal.provider.financial;
+package br.com.zup.proposal.provider.financial.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import br.com.zup.proposal.model.enums.ProposalStatus;

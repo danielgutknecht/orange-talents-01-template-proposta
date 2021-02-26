@@ -6,12 +6,16 @@ import java.util.Set;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import br.com.zup.proposal.model.enums.CardStatus;
 
 @Entity
 @Table(name = "cartao")
@@ -27,15 +31,20 @@ public class Card {
 	@Column(nullable = false)
 	private LocalDateTime createdAt = LocalDateTime.now();
 
+	@JsonProperty
 	@Column(nullable = false)
 	private String number;
 
+	@JsonProperty
 	@Column(nullable = false)
 	private BigDecimal creditLimit;
 
+	@Enumerated(EnumType.STRING)
+	private CardStatus cardStatus = CardStatus.ATIVO;
+
 	@OneToOne
 	private Proposal proposal;
-	
+
 	@OneToMany
 	private Set<Biometry> biometry;
 
@@ -47,6 +56,18 @@ public class Card {
 
 	@Deprecated
 	public Card() {
+	}
+
+	public void updateCardStatus(CardStatus status) {
+		this.cardStatus = status;
+	}
+
+	public boolean isBlocked() {
+		return this.cardStatus == CardStatus.BLOQUEADO;
+	}
+
+	public void isActive(Card card) {
+		this.cardStatus = CardStatus.ATIVO;
 	}
 
 	public Long getId() {
@@ -69,8 +90,16 @@ public class Card {
 		return creditLimit;
 	}
 
+	public CardStatus getCardStatus() {
+		return cardStatus;
+	}
+
 	public Proposal getProposal() {
 		return proposal;
+	}
+
+	public Set<Biometry> getBiometry() {
+		return biometry;
 	}
 
 }

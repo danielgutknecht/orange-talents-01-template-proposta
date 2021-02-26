@@ -21,13 +21,10 @@ public interface ProposalRepository extends JpaRepository<Proposal, Long> {
 
 	Optional<Proposal> findByDocument(String document);
 
-	Boolean existsByDocument(String document);
-
 	Optional<Proposal> findByExternalId(UUID externalId);
 
-	
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	@QueryHints({ @QueryHint(name = "javax.persistence.lock.timeout", value = (LockOptions.SKIP_LOCKED + "")) })
 	List<Proposal> findTopByStatusOrderByCreatedAtAsc(ProposalStatus status);
-	
+
 }

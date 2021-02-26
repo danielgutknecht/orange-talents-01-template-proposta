@@ -1,5 +1,6 @@
 package br.com.zup.proposal.services;
 
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,8 +9,8 @@ import org.springframework.web.server.ResponseStatusException;
 import br.com.zup.proposal.model.Proposal;
 import br.com.zup.proposal.model.enums.ProposalStatus;
 import br.com.zup.proposal.provider.financial.ProposalAnalysisClient;
-import br.com.zup.proposal.provider.financial.ProposalAnalysisRequest;
-import br.com.zup.proposal.provider.financial.ProposalAnalysisResponse;
+import br.com.zup.proposal.provider.financial.request.ProposalAnalysisRequest;
+import br.com.zup.proposal.provider.financial.response.ProposalAnalysisResponse;
 import br.com.zup.proposal.repository.ProposalRepository;
 import feign.FeignException.FeignClientException;
 
@@ -22,15 +23,13 @@ public class ProposalService {
 	@Autowired
 	private ProposalAnalysisClient financialAnalysisClient;
 
-	public Boolean existsProposalByDocument(String document) {
-
-		Boolean documentExists = proposalRepository.existsByDocument(document);
-		if (documentExists.equals(document)) {
+	public void findByDocument(String document) {
+		Optional<Proposal> existDocument = proposalRepository.findByDocument(document);
+		if (existDocument.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
 					"There is already a proposal for that document.");
 		}
 
-		return documentExists;
 	}
 
 	public ProposalStatus consultProposal(ProposalAnalysisRequest financialAnalysisRequest) {
@@ -38,7 +37,7 @@ public class ProposalService {
 		try {
 			ProposalAnalysisResponse proposalAnalises = financialAnalysisClient.consult(financialAnalysisRequest);
 
-			System.out.println(proposalAnalises.toString());
+			// System.out.println(proposalAnalises.toString());
 
 			return proposalAnalises.getResultadoSolicitaca();
 

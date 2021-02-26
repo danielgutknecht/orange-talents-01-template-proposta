@@ -2,9 +2,7 @@ package br.com.zup.proposal.controller.response;
 
 import java.math.BigDecimal;
 import java.util.UUID;
-
 import br.com.zup.proposal.model.Proposal;
-import br.com.zup.proposal.model.enums.CardStatus;
 import br.com.zup.proposal.model.enums.ProposalStatus;
 
 public class ProposalResponse {
@@ -21,8 +19,6 @@ public class ProposalResponse {
 
 	private ProposalStatus status;
 
-	private CardStatus cardStatus;
-
 	private AddressResponse addressResponse;
 
 	public ProposalResponse(Proposal proposal) {
@@ -32,7 +28,6 @@ public class ProposalResponse {
 		this.salary = proposal.getSalary();
 		this.document = proposal.getDocument();
 		this.status = proposal.getProposalStatus();
-		this.cardStatus = proposal.getCardStatus();
 		this.addressResponse = new AddressResponse(proposal.getAddress());
 
 	}
@@ -59,10 +54,6 @@ public class ProposalResponse {
 
 	public ProposalStatus getStatus() {
 		return status;
-	}
-
-	public CardStatus getCardStatus() {
-		return cardStatus;
 	}
 
 	public AddressResponse getAddressResponse() {

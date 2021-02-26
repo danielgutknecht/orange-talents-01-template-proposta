@@ -15,7 +15,7 @@ import br.com.zup.proposal.controller.request.ProposalRequest;
 import br.com.zup.proposal.controller.response.ProposalResponse;
 import br.com.zup.proposal.model.Proposal;
 import br.com.zup.proposal.model.enums.ProposalStatus;
-import br.com.zup.proposal.provider.financial.ProposalAnalysisRequest;
+import br.com.zup.proposal.provider.financial.request.ProposalAnalysisRequest;
 import br.com.zup.proposal.services.ProposalService;
 
 @RestController
@@ -31,7 +31,7 @@ public class ProposalController {
 
 		Proposal newProposal = request.toProposal();
 
-		proposalService.existsProposalByDocument(newProposal.getDocument());
+		proposalService.findByDocument(newProposal.getDocument());
 
 		proposalService.create(newProposal);
 

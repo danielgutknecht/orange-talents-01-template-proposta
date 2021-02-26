@@ -1,4 +1,4 @@
-package br.com.zup.proposal.provider.financial;
+package br.com.zup.proposal.provider.financial.response;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,10 +16,10 @@ public class CardDetailsAnalysisReponse {
 	@JsonProperty("titular")
 	private String cardHolderName;
 
-	private List<CardLockedResponse> CardLocked;
+	private List<BlockAnalysisResponse> CardLocked;
 
 	public CardDetailsAnalysisReponse(String id, LocalDateTime createdAt, String cardHolderName,
-			List<CardLockedResponse> cardLocked) {
+			List<BlockAnalysisResponse> cardLocked) {
 		this.id = id;
 		this.createdAt = createdAt;
 		this.cardHolderName = cardHolderName;
@@ -50,11 +50,11 @@ public class CardDetailsAnalysisReponse {
 		this.cardHolderName = cardHolderName;
 	}
 
-	public List<CardLockedResponse> getCardLocked() {
+	public List<BlockAnalysisResponse> getCardLocked() {
 		return CardLocked;
 	}
 
-	public void setCardLocked(List<CardLockedResponse> cardLocked) {
+	public void setCardLocked(List<BlockAnalysisResponse> cardLocked) {
 		CardLocked = cardLocked;
 	}
 

@@ -1,4 +1,4 @@
-package br.com.zup.proposal.provider.financial;
+package br.com.zup.proposal.provider.financial.response;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

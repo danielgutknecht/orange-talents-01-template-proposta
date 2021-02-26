@@ -1,4 +1,4 @@
-package br.com.zup.proposal.provider.financial;
+package br.com.zup.proposal.provider.financial.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

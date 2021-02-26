@@ -56,10 +56,6 @@ public class Proposal {
 	@OneToOne
 	private Card card;
 
-	@Enumerated(EnumType.ORDINAL)
-	// @Column(nullable = false)
-	private CardStatus cardStatus;
-
 	public Proposal(String name, String email, String document, BigDecimal salary, Address address) {
 		this.name = name;
 		this.email = email;
@@ -77,7 +73,6 @@ public class Proposal {
 		this.address = address;
 		this.status = status;
 		this.card = card;
-		this.cardStatus = cardStatus;
 	}
 
 	@Deprecated
@@ -127,10 +122,6 @@ public class Proposal {
 
 	public void setCard(Card card) {
 		this.card = card;
-	}
-
-	public CardStatus getCardStatus() {
-		return cardStatus;
 	}
 
 }
