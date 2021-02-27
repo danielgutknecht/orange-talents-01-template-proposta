@@ -2,7 +2,7 @@ package br.com.zup.proposal.controller;
 
 import br.com.zup.proposal.model.Card;
 import br.com.zup.proposal.model.enums.CardStatus;
-import br.com.zup.proposal.provider.financial.request.BlockAnalysisRequest;
+import br.com.zup.proposal.provider.financial.request.BlockClientRequest;
 import br.com.zup.proposal.model.Block;
 import br.com.zup.proposal.repository.BlockRepository;
 import br.com.zup.proposal.services.CardService;
@@ -27,7 +27,6 @@ public class BlockController {
 	BlockRepository blockRepository;
 
 	@PostMapping("/{id}/block")
-
 	public ResponseEntity<?> lockcard(@PathVariable Long id, @RequestBody String sistemaResponsavel) {
 
 		Card card = cardService.findById(id);
@@ -37,8 +36,8 @@ public class BlockController {
 					.body(new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Card already blocked"));
 		}
 
-		CardStatus status = cardService.consultCardStatus(card.getNumber(),
-				new BlockAnalysisRequest(sistemaResponsavel));
+		CardStatus status = cardService.consultBlockCardStatus(card.getNumber(),
+				new BlockClientRequest(sistemaResponsavel));
 
 		String userAgent = servletRequest.getHeader("User-Agent");
 		String ipClient = servletRequest.getHeader("X-FORWARDED-FOR");

@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import br.com.zup.proposal.model.Proposal;
 import br.com.zup.proposal.model.enums.ProposalStatus;
-import br.com.zup.proposal.provider.financial.ProposalAnalysisClient;
-import br.com.zup.proposal.provider.financial.request.ProposalAnalysisRequest;
-import br.com.zup.proposal.provider.financial.response.ProposalAnalysisResponse;
+import br.com.zup.proposal.provider.financial.ProposalClient;
+import br.com.zup.proposal.provider.financial.request.ProposalClientRequest;
+import br.com.zup.proposal.provider.financial.response.ProposalClientResponse;
 import br.com.zup.proposal.repository.ProposalRepository;
 import feign.FeignException.FeignClientException;
 
@@ -21,7 +21,7 @@ public class ProposalService {
 	private ProposalRepository proposalRepository;
 
 	@Autowired
-	private ProposalAnalysisClient financialAnalysisClient;
+	private ProposalClient proposalClientService;
 
 	public void findByDocument(String document) {
 		Optional<Proposal> existDocument = proposalRepository.findByDocument(document);
@@ -32,14 +32,14 @@ public class ProposalService {
 
 	}
 
-	public ProposalStatus consultProposal(ProposalAnalysisRequest financialAnalysisRequest) {
+	public ProposalStatus consultProposal(ProposalClientRequest financialAnalysisRequest) {
 
 		try {
-			ProposalAnalysisResponse proposalAnalises = financialAnalysisClient.consult(financialAnalysisRequest);
+			ProposalClientResponse proposalAnalises = proposalClientService.consult(financialAnalysisRequest);
 
 			// System.out.println(proposalAnalises.toString());
 
-			return proposalAnalises.getResultadoSolicitaca();
+			return proposalAnalises.getResultadoSolicitacao();
 
 		} catch (FeignClientException e) {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,

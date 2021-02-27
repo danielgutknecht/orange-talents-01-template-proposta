@@ -4,15 +4,15 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.zup.proposal.provider.financial.request.ProposalAnalysisRequest;
-import br.com.zup.proposal.provider.financial.response.ProposalAnalysisResponse;
+import br.com.zup.proposal.provider.financial.request.ProposalClientRequest;
+import br.com.zup.proposal.provider.financial.response.ProposalClientResponse;
 
 
 @FeignClient(name = "financialAnalysis", url = "${proposal.client.financialanalysis.url}")
-public interface ProposalAnalysisClient {
+public interface ProposalClient {
 
 	@PostMapping("/api/solicitacao")
-	public ProposalAnalysisResponse consult(@RequestBody ProposalAnalysisRequest financialAnalysisRequest);
+	public ProposalClientResponse consult(@RequestBody ProposalClientRequest financialAnalysisRequest);
 	
 
 }

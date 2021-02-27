@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import br.com.zup.proposal.model.enums.CardStatus;
 
-public class BlockAnalysisResponse {
+public class BlockClientResponse {
 
 	@JsonProperty("resultado")
 	private CardStatus result;

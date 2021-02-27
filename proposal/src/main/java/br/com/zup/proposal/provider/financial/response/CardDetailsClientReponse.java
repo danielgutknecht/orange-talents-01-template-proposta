@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CardDetailsAnalysisReponse {
+public class CardDetailsClientReponse {
 
 	@JsonProperty("id")
 	private String id;
@@ -16,10 +16,10 @@ public class CardDetailsAnalysisReponse {
 	@JsonProperty("titular")
 	private String cardHolderName;
 
-	private List<BlockAnalysisResponse> CardLocked;
+	private List<BlockClientResponse> CardLocked;
 
-	public CardDetailsAnalysisReponse(String id, LocalDateTime createdAt, String cardHolderName,
-			List<BlockAnalysisResponse> cardLocked) {
+	public CardDetailsClientReponse(String id, LocalDateTime createdAt, String cardHolderName,
+			List<BlockClientResponse> cardLocked) {
 		this.id = id;
 		this.createdAt = createdAt;
 		this.cardHolderName = cardHolderName;
@@ -50,11 +50,11 @@ public class CardDetailsAnalysisReponse {
 		this.cardHolderName = cardHolderName;
 	}
 
-	public List<BlockAnalysisResponse> getCardLocked() {
+	public List<BlockClientResponse> getCardLocked() {
 		return CardLocked;
 	}
 
-	public void setCardLocked(List<BlockAnalysisResponse> cardLocked) {
+	public void setCardLocked(List<BlockClientResponse> cardLocked) {
 		CardLocked = cardLocked;
 	}
 

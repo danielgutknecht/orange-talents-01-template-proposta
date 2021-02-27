@@ -2,12 +2,12 @@ package br.com.zup.proposal.provider.financial.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BlockAnalysisCardRequest {
+public class BlockClientRequest {
 
 	@JsonProperty("sistemaResponsavel")
 	private String responsibleSystem;
 
-	public BlockAnalysisCardRequest(String responsibleSystem) {
+	public BlockClientRequest(String responsibleSystem) {
 		this.responsibleSystem = responsibleSystem;
 	}
 

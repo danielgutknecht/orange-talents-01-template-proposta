@@ -3,7 +3,7 @@ package br.com.zup.proposal.provider.financial.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import br.com.zup.proposal.model.enums.ProposalStatus;
 
-public class ProposalAnalysisResponse {
+public class ProposalClientResponse {
 
 	@JsonProperty
 	private String documento;
@@ -25,7 +25,7 @@ public class ProposalAnalysisResponse {
 		return nome;
 	}
 
-	public ProposalStatus getResultadoSolicitaca() {
+	public ProposalStatus getResultadoSolicitacao() {
 		return resultadoSolicitacao;
 	}
 

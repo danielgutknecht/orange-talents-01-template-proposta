@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import br.com.zup.proposal.model.enums.CardStatus;
 
 @Entity
@@ -31,11 +30,9 @@ public class Card {
 	@Column(nullable = false)
 	private LocalDateTime createdAt = LocalDateTime.now();
 
-	@JsonProperty
 	@Column(nullable = false)
 	private String number;
 
-	@JsonProperty
 	@Column(nullable = false)
 	private BigDecimal creditLimit;
 
@@ -45,7 +42,7 @@ public class Card {
 	@OneToOne
 	private Proposal proposal;
 
-	@OneToMany
+	@OneToMany(mappedBy = "card")
 	private Set<Biometry> biometry;
 
 	public Card(String number, BigDecimal limit, Proposal proposal) {

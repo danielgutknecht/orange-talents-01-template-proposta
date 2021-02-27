@@ -13,10 +13,12 @@ import org.springframework.web.server.ResponseStatusException;
 import br.com.zup.proposal.model.Card;
 import br.com.zup.proposal.model.Proposal;
 import br.com.zup.proposal.model.enums.ProposalStatus;
-import br.com.zup.proposal.provider.financial.CardAnalysisClient;
-import br.com.zup.proposal.provider.financial.request.BlockAnalysisRequest;
-import br.com.zup.proposal.provider.financial.response.BlockAnalysisResponse;
-import br.com.zup.proposal.provider.financial.response.CardAnalysisResponse;
+import br.com.zup.proposal.provider.financial.CardClient;
+import br.com.zup.proposal.provider.financial.request.BlockClientRequest;
+import br.com.zup.proposal.provider.financial.request.TravelClientRequest;
+import br.com.zup.proposal.provider.financial.response.BlockClientResponse;
+import br.com.zup.proposal.provider.financial.response.CardClientResponse;
+import br.com.zup.proposal.provider.financial.response.TravelClientResponse;
 import br.com.zup.proposal.repository.CardRepository;
 import br.com.zup.proposal.repository.ProposalRepository;
 import feign.FeignException;
@@ -32,7 +34,7 @@ public class CardService {
 	private ProposalRepository proposalRepository;
 
 	@Autowired
-	private CardAnalysisClient cardAnalysisClient;
+	private CardClient cardClient;
 
 	@Scheduled(fixedDelay = 2000) // 1min 20000 - 10min 600000milli
 	@Transactional
@@ -42,7 +44,7 @@ public class CardService {
 
 		proposalList.forEach(proposal -> {
 
-			CardAnalysisResponse response = consulCardFromProposal(proposal.getId());
+			CardClientResponse response = cardClient.consulById(proposal.getId());
 
 			Card card = new Card(response.getCardNumber(), response.getLimit(), proposal);
 
@@ -55,9 +57,9 @@ public class CardService {
 	}
 
 	@Transactional(timeout = 5000)
-	public CardAnalysisResponse consulCardFromProposal(Long id) {
+	public CardClientResponse consulCardFromProposal(Long id) {
 		try {
-			CardAnalysisResponse response = cardAnalysisClient.consulById(id);
+			CardClientResponse response = cardClient.consulById(id);
 			return response;
 		} catch (FeignException e) {
 			throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Card not found to proposal",
@@ -65,17 +67,34 @@ public class CardService {
 		}
 	}
 
-	@Transactional(timeout = 5000)
-	public CardStatus consultCardStatus(String id, BlockAnalysisRequest request) {
+	public CardStatus consultBlockCardStatus(String id, BlockClientRequest request) {
+
 		try {
-			BlockAnalysisResponse responseStatus = cardAnalysisClient.solicitationBlockCard(id, request);
+
+			BlockClientResponse responseStatus = cardClient.solicitationBlock(id, request);
 
 			System.out.println(responseStatus.toString());
 
 			return responseStatus.getResultado();
 
 		} catch (FeignException e) {
-			throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Card status can't be processable",
+			throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Block card status can't be processable",
+					e.getCause());
+		}
+	}
+
+	public TravelClientResponse consultNotificationCardStatus(String id, TravelClientRequest request) {
+
+		try {
+
+			TravelClientResponse responseStatus = cardClient.consultTravelNotification(id, request);
+
+			System.out.println(responseStatus.toString());
+
+			return responseStatus;
+
+		} catch (FeignException e) {
+			throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Travel status can't be processable",
 					e.getCause());
 		}
 	}

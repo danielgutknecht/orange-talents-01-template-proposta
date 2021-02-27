@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CardAnalysisResponse {
+public class CardClientResponse {
 
 	@JsonProperty("id")
 	private String cardNumber;
@@ -17,14 +17,6 @@ public class CardAnalysisResponse {
 
 	@JsonProperty("limite")
 	private BigDecimal creditLimit;
-
-	public CardAnalysisResponse(String cardNumber, LocalDateTime createdAt, String cardHolderName,
-			BigDecimal creditLimit) {
-		this.cardNumber = cardNumber;
-		this.createdAt = createdAt;
-		this.cardHolderName = cardHolderName;
-		this.creditLimit = creditLimit;
-	}
 
 	public String getCardNumber() {
 		return cardNumber;
