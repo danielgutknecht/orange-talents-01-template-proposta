@@ -8,21 +8,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import br.com.zup.proposal.provider.financial.request.BlockClientRequest;
 import br.com.zup.proposal.provider.financial.request.TravelClientRequest;
+import br.com.zup.proposal.provider.financial.request.WalletRequest;
 import br.com.zup.proposal.provider.financial.response.BlockClientResponse;
 import br.com.zup.proposal.provider.financial.response.CardClientResponse;
 import br.com.zup.proposal.provider.financial.response.TravelClientResponse;
+import br.com.zup.proposal.provider.financial.response.WalletResponse;
 
 @FeignClient(name = "card", url = "${card.url}")
-@RequestMapping("/api")
+@RequestMapping("/api/cartoes")
 public interface CardClient {
 
-	@GetMapping("/cartoes")
+	@GetMapping
 	CardClientResponse consulById(@PathVariable("id") Long id);
 
-	@PostMapping("/cartoes/{id}/bloqueios")
+	@PostMapping("{id}/bloqueios")
 	BlockClientResponse solicitationBlock(@PathVariable String id, @RequestBody BlockClientRequest request);
 
-	@PostMapping("/cartoes/{id}/avisos")
+	@PostMapping("{id}/avisos")
 	TravelClientResponse consultTravelNotification(@PathVariable String id, @RequestBody TravelClientRequest request);
+
+	@PostMapping("{id}/carteiras")
+	WalletResponse associeteWallet(@PathVariable String id, @RequestBody WalletRequest request);
 
 }

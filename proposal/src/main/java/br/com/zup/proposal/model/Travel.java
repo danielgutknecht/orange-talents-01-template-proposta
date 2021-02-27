@@ -36,7 +36,7 @@ public class Travel {
 	@Column(nullable = false)
 	private String destiny;
 
-	// @Column(nullable = false)
+	@Column(nullable = false)
 	private LocalDate validateAt;
 
 	@Enumerated(EnumType.STRING)

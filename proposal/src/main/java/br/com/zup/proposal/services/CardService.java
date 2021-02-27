@@ -13,12 +13,15 @@ import org.springframework.web.server.ResponseStatusException;
 import br.com.zup.proposal.model.Card;
 import br.com.zup.proposal.model.Proposal;
 import br.com.zup.proposal.model.enums.ProposalStatus;
+import br.com.zup.proposal.model.enums.WalletStatus;
 import br.com.zup.proposal.provider.financial.CardClient;
 import br.com.zup.proposal.provider.financial.request.BlockClientRequest;
 import br.com.zup.proposal.provider.financial.request.TravelClientRequest;
+import br.com.zup.proposal.provider.financial.request.WalletRequest;
 import br.com.zup.proposal.provider.financial.response.BlockClientResponse;
 import br.com.zup.proposal.provider.financial.response.CardClientResponse;
 import br.com.zup.proposal.provider.financial.response.TravelClientResponse;
+import br.com.zup.proposal.provider.financial.response.WalletResponse;
 import br.com.zup.proposal.repository.CardRepository;
 import br.com.zup.proposal.repository.ProposalRepository;
 import feign.FeignException;
@@ -95,6 +98,22 @@ public class CardService {
 
 		} catch (FeignException e) {
 			throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Travel status can't be processable",
+					e.getCause());
+		}
+	}
+
+	public WalletStatus consultAssociateWallet(String id, WalletRequest request) {
+
+		try {
+
+			WalletResponse responseStatus = cardClient.associeteWallet(id, request);
+
+			System.out.println(responseStatus.toString());
+
+			return responseStatus.getStatus();
+
+		} catch (FeignException e) {
+			throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Card status can't be processable",
 					e.getCause());
 		}
 	}
