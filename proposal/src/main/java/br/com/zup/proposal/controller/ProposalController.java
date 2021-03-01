@@ -17,6 +17,8 @@ import br.com.zup.proposal.model.Proposal;
 import br.com.zup.proposal.model.enums.ProposalStatus;
 import br.com.zup.proposal.provider.financial.request.ProposalClientRequest;
 import br.com.zup.proposal.services.ProposalService;
+import io.opentracing.Span;
+import io.opentracing.Tracer;
 
 @RestController
 @RequestMapping("/proposals")
@@ -25,9 +27,17 @@ public class ProposalController {
 	@Autowired
 	private ProposalService proposalService;
 
+	@Autowired
+	private Tracer tracer;
+
 	@PostMapping
 	public ResponseEntity<ProposalResponse> createProposal(@RequestBody @Valid ProposalRequest request,
 			UriComponentsBuilder uriBuilder) {
+
+		Span activeSpan = tracer.activeSpan();
+		activeSpan.setTag("user.email", request.getEmail());
+		activeSpan.setBaggageItem("traceId", "0001");
+		activeSpan.log("createProposal");
 
 		Proposal newProposal = request.toProposal();
 
