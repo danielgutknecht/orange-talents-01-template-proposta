@@ -8,7 +8,7 @@ import br.com.zup.proposal.provider.financial.request.ProposalClientRequest;
 import br.com.zup.proposal.provider.financial.response.ProposalClientResponse;
 
 
-@FeignClient(name = "financialAnalysis", url = "${proposal.client.financialanalysis.url}")
+@FeignClient(name = "proposal", url = "${proposal.url}")
 public interface ProposalClient {
 
 	@PostMapping("/api/solicitacao")
